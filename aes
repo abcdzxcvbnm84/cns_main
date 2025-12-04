@@ -3,18 +3,16 @@ import java.util.Base64;
 
 public class AESDemo {
     public static void main(String[] args) throws Exception {
-        KeyGenerator kg = KeyGenerator.getInstance("AES");
-        kg.init(128);
-        SecretKey key = kg.generateKey();
+        SecretKey key = KeyGenerator.getInstance("AES").generateKey();
 
         Cipher c = Cipher.getInstance("AES/ECB/PKCS5Padding");
-        c.init(Cipher.ENCRYPT_MODE, key);
         String msg = "HELLO";
 
+        c.init(Cipher.ENCRYPT_MODE, key);
         String enc = Base64.getEncoder().encodeToString(c.doFinal(msg.getBytes()));
-        System.out.println("Encrypted: " + enc);
+        System.out.println("AES Encrypted : " + enc);
 
         c.init(Cipher.DECRYPT_MODE, key);
-        System.out.println("Decrypted: " + new String(c.doFinal(Base64.getDecoder().decode(enc))));
+        System.out.println("AES Decrypted : " + new String(c.doFinal(Base64.getDecoder().decode(enc))));
     }
 }
