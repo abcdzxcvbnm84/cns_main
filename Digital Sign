@@ -1,0 +1,27 @@
+import java.security.*;
+import java.util.Base64;
+
+public class Main {
+    public static void main(String[] args) throws Exception {
+        KeyPairGenerator kpg = KeyPairGenerator.getInstance("RSA");
+        kpg.initialize(2048);
+        KeyPair kp = kpg.generateKeyPair();
+        PrivateKey priv = kp.getPrivate();
+        PublicKey pub = kp.getPublic();
+
+        String message = "This is the message to sign";
+        Signature signer = Signature.getInstance("SHA256withRSA");
+        signer.initSign(priv);
+        signer.update(message.getBytes());
+        byte[] signature = signer.sign();
+        System.out.println("Signature (base64): " + Base64.getEncoder().encodeToString(signature));
+
+        Signature verifier = Signature.getInstance("SHA256withRSA");
+        verifier.initVerify(pub);
+        verifier.update(message.getBytes());
+        System.out.println("Verified: " + verifier.verify(signature));
+    }
+}
+Output:
+Signature(base64):nz2Xabuvf41Ldcf/YBI6p5HkHr5ELVu0wF811HJCyfhWAXfEfTIB8g2spzfQaPIH1QEWaZUTay10mH5XsE3OGfkYHdiq02LimQM4SjENMHLL3M2UJJLY5doBHn3RL7FvM1mPtWXtYau/7kQDouONRD/016EDQnfiaFHUU9qfRAClUcVKZ6bePgLwSIUHgNvzYOjgSC8ed0q9c9AA4zieLlNBLCUOfBaB5v33T3imMmInX2mRxkWCVL5+GWpc/QWJ8hfwmN40uvc+nXUiKU580ENl89sO0pokKokWV4ULBub4ffIO1/WPON+KkMQnJns4C7ERds5TRI2WxHNOL5/JtA==
+Verified: true
