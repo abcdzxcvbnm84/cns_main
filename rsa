@@ -1,21 +1,19 @@
-import java.security.*;
 import javax.crypto.Cipher;
+import java.security.*;
 import java.util.Base64;
 
 public class RSADemo {
     public static void main(String[] args) throws Exception {
-        KeyPairGenerator kg = KeyPairGenerator.getInstance("RSA");
-        kg.initialize(2048);
-        KeyPair kp = kg.generateKeyPair();
-
-        String msg = "HELLO";
+        KeyPair kp = KeyPairGenerator.getInstance("RSA").generateKeyPair();
 
         Cipher c = Cipher.getInstance("RSA/ECB/PKCS1Padding");
+        String msg = "HELLO";
+
         c.init(Cipher.ENCRYPT_MODE, kp.getPublic());
         String enc = Base64.getEncoder().encodeToString(c.doFinal(msg.getBytes()));
-        System.out.println("Encrypted: " + enc);
+        System.out.println("RSA Encrypted : " + enc);
 
         c.init(Cipher.DECRYPT_MODE, kp.getPrivate());
-        System.out.println("Decrypted: " + new String(c.doFinal(Base64.getDecoder().decode(enc))));
+        System.out.println("RSA Decrypted : " + new String(c.doFinal(Base64.getDecoder().decode(enc))));
     }
 }
