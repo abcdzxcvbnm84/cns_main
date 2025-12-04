@@ -1,0 +1,23 @@
+public class Main {
+    public static void main(String[] args) {
+        String text = "HELLO";
+        int key = 3;
+
+        String enc = "", dec = "";
+
+        // Encrypt
+        for (char c : text.toCharArray())
+            enc += (char) ((c - 'A' + key) % 26 + 'A');
+
+        // Decrypt
+        for (char c : enc.toCharArray())
+            dec += (char) ((c - 'A' - key + 26) % 26 + 'A');
+
+        System.out.println("Encrypted: " + enc);
+        System.out.println("Decrypted: " + dec);
+    }
+}
+
+Output:
+Encrypted: KHOOR
+Decrypted: HELLO
