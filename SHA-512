@@ -1,0 +1,21 @@
+import java.security.MessageDigest;
+import java.util.Scanner;
+
+public class Main {
+    public static void main(String[] args) throws Exception {
+        String message = "Hello World";
+
+        MessageDigest md = MessageDigest.getInstance("SHA-512");
+        byte[] digest = md.digest(message.getBytes());
+
+        StringBuilder sb = new StringBuilder();
+        for (byte b : digest) {
+            sb.append(String.format("%02x", b));
+        }
+
+        System.out.println("SHA-512 Digest: " + sb.toString());
+    }
+}
+
+Output:
+SHA-512 Digest: 2c74fd17edafd80e8447b0d46741ee243b7eb74dd2149a0ab1b9246fb30382f27e853d8585719e0e67cbda0daa8f51671064615d645ae27acb15bfb1447f459b
